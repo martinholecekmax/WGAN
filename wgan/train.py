@@ -65,10 +65,11 @@ critic.train()
 for epoch in range(NUM_EPOCHS):
     for batch_idx, (real, _) in enumerate(loader):
         real = real.to(device)
+        cur_batch_size = real.shape[0]
 
         # Train Critic: max E[critic(real)] - E[critic(fake)]
         for _ in range(CRITIC_ITERATIONS):
-            noise = torch.randn((BATCH_SIZE, Z_DIM, 1, 1)).to(device)
+            noise = torch.randn((cur_batch_size, Z_DIM, 1, 1)).to(device)
             fake = gen(noise)
 
             critic_real = critic(real).reshape(-1)  # Flatten vector
